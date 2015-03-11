@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 cnt = 0
 for i in xrange(1, 1001):
 	num = 1

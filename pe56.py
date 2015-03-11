@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 maxm = 0
 for a in xrange(100):
 	for b in xrange(100):

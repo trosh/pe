@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 def ispal(n):
 	digits = []
 	i = 0

@@ -25,7 +25,9 @@ int main() {
 		mpz_mul_si(upp, upp, 10);
 	}
 	printf("cnt = %d\n", cnt);
-	clock_gettime(CLOCK_REALTIME_COARSE, &tp2);
-	printf("time: %lgs\n", (1.*tp1.tv_nsec-tp2.tv_nsec)/1e9);
+	clock_gettime(CLOCK_REALTIME, &tp2);
+	printf("time: %lgs\n",
+		1.*tp2.tv_sec-tp1.tv_sec
+		+(tp2.tv_nsec-tp1.tv_nsec)/1e9);
 	return 0;
 }

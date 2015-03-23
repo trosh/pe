@@ -1,42 +1,65 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <limits.h>
 
 int main() {
-	int D, rt, maxD, cnt;
-	long long x, sqx, maxx, y;
-	float xapprox;
+	int D, rt, i, j, maxD, termscap, termssize;
+	long long num, den, tmp, out, fac, x, maxx, y, *terms;
 	rt = 2;
 	maxD = 1;
 	maxx = 0;
+	termscap = 256;
+	terms = (long long*)malloc(termscap*sizeof(long long));
 	for (D=2; D<1001; D++) {
 		if (D == rt*rt) {
 			rt++;
 			continue;
 		}
-		cnt = 0;
-		for (y=2 ;; y++) {
-			cnt++;
-			if (cnt%500000 == 0) {
-				printf("%ld..", y);
-				fflush(stdout);
+		printf("D=%d ", D);
+		fflush(stdout);
+		num = 1;
+		den = 1-rt;
+		terms[0] = rt-1;
+		termssize = 1;
+		for (i=0 ;; i++) {
+			fac = num;
+			num = -den;
+			den = D-den*den;
+			den /= fac;
+			out = 0;
+			while (num-den > -rt) {
+				out++;
+				num -= den;
 			}
-			sqx = 1+y*y*D;
-			xapprox = sqx;
-			xapprox = sqrt(xapprox)-1;
-			for (x=xapprox ;; x++) {
-				if (x*x > sqx) goto notfound;
-				if (x*x == sqx) break;
+			if (termssize == termscap)
+				terms = (long long*)realloc(terms,
+						(termscap*=2)*sizeof(long long));
+			terms[termssize++] = out;
+			tmp = den;
+			den = num;
+			num = tmp;
+			x = 1;
+			y = out;
+			for (j=i; j>=0; j--) {
+				x += y*terms[i];
+				tmp = x;
+				x   = y;
+				y   = tmp;
 			}
-			if (x>maxx) {
-				maxx = x;
-				maxD = D;
+			printf("%ld..", y);
+			fflush(stdout);
+			if (y*y-D*x*x == 1) {
+				if (x > maxx) {
+					maxD = D;
+					maxx = x;
+				}
+				break;
 			}
-			break;
-			notfound:;
 		}
-		printf("D=%ld x=%ld\n", D, x);
+		putchar('\n');
 	}
 	printf("maxD=%ld maxx=%ld\n", maxD, maxx);
+	free(terms);
 	return 0;
 }

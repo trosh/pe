@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <limits.h>
 
 int main() {
 	int D, rt, i, j, maxD, termscap, termssize;
@@ -47,7 +46,7 @@ int main() {
 				x   = y;
 				y   = tmp;
 			}
-			printf("%ld..", y);
+			printf("%lld..", y);
 			fflush(stdout);
 			if (y*y-D*x*x == 1) {
 				if (x > maxx) {
@@ -59,7 +58,7 @@ int main() {
 		}
 		putchar('\n');
 	}
-	printf("maxD=%ld maxx=%ld\n", maxD, maxx);
+	printf("maxD=%d maxx=%lld\n", maxD, maxx);
 	free(terms);
 	return 0;
 }

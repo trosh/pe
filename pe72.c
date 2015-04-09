@@ -1,51 +1,42 @@
 #include <stdio.h>
 
 int main() {
-	char sieve[1000000]={0}, firstfind;
-	int primes[400000], dec, i, j, c, n, d;
+	char sieve[1000001]={0};
+	int primes[400000], i, j, c, n, d, phin, phid;
 	long long numfracs;
 	c = 0;
-	for (i=2; i<1000000; i++)
+	for (i=2; i<=1000000; i++)
 		if (sieve[i]==0) {
 			primes[c++] = i;
-			for (j=i*2; j<1000000; j+=i)
+			for (j=i*2; j<=1000000; j+=i)
 				sieve[j] = 1;
 		}
+	puts("\033[32mPRIMES GENERATED\033[0m");
 	numfracs = 0;
 	for (d=2; d<=1000000; d++) {
-		for (n=1; n<d; n++) {
-			for (j=primes[i=0]; j<=n; j=primes[++i])
-				if (n%j==0 && d%j==0)
-					goto lbl1;
-			numfracs++;
-			lbl1:;
+		if (sieve[d]==0) {
+			numfracs += d-1;
+			continue;
 		}
-		if (d%1000==0) {
-			printf("%d..", d);
-			fflush(stdout);
-		}
-	}
-	printf("numfracs=%d\n", numfracs);
-	return 0;
-	for (d=2; d<=8; d++) {
-		numfracs += d - 1;
-		if (sieve[d]==0) continue;
-		n = d;
-		firstfind = 1;
-		for (j=primes[i=0]; n!=1&&i<c;) {
-			if (n%j) {
-				j=primes[++i];
-				continue;
+		phin = n = d;
+		phid = 1;
+		for (j=primes[i=0]; n!=1; j=primes[++i]) {
+			if (n%j) continue;
+			phin *= j-1;
+			phid *= j;
+			if (phin%phid==0) {
+				phin /= phid;
+				phid = 1;
 			}
-			n /= j;
-			numfracs -= j-1;
+			while (n%j==0) n/=j;
 		}
-		printf("%d -> %ld\n", d, numfracs);
-		if (d%10000==0) {
-			printf("%d..", d);
+		if (d%100000==0) {
+			if (d>100000)
+				putchar('.');
+			printf("%d", d);
 			fflush(stdout);
 		}
 	}
-	printf("\nnumfracs = %ld\n", numfracs);
+	printf("\nnumfracs = %lld\n", numfracs);
 	return 0;
 }

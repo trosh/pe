@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
 		n += c-'0';
 	}
 	sieve = (char*)calloc(n+1, 1);
-	primes = (int*)malloc(n);
+	primes = (int*)malloc(n*sizeof(int)/2);
 	c = 0;
 	for (i=2; i<=n; i++)
 		if (sieve[i]==0) {
